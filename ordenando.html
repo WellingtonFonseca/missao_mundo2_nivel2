@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ordenando</title>
+</head>
+<body>
+
+<p>
+    <label for="valor">valor</label>
+    <input type="number"
+        id="valor"
+        name="valor"
+        value="0">
+    <button type="button" onclick="add();">adicionar</button>
+</p>
+<p>
+    <label for="acao">ação</label>
+    <select id="acao"
+        name="acao">
+        <option value="Blubble Sort" selected>Blubble Sort</option>
+        <option value="Selection Sort">Selection Sort</option>
+        <option value="Quick Sort">Quick Sort</option>
+    </select>
+    <button type="button" onclick="ordenar();">ordenar</button>
+    <button type="button" onclick="misturar();">misturar</button>
+</p>
+<ul id="valores"></ul>
+
+
+<script src="ordenando.js"></script>
+<script>
+    let vector = [];
+
+    function list_vector() {
+        const ul = document.getElementById("valores");
+        ul.innerHTML = "";
+
+        vector.map(function( elem ) {
+            let li = document.createElement("li");
+            li.appendChild(document.createTextNode(elem));
+            ul.appendChild(li);
+        });
+    };
+
+    function add() {
+        console.log("add");
+        const valor = document.getElementById("valor");
+        if(vector.includes(eval(valor.value)) == false) {
+            vector.push(eval(valor.value));
+        };
+        list_vector();
+
+    };
+
+    function ordenar() {
+        console.log("ordenar");
+        const select = document.getElementById("acao");
+
+        // optei por .value, caso ocorra troca de ordem, ainda sim funciona corretamente
+        const select_value = select.value;
+
+        switch(select_value) {
+            case "Blubble Sort":
+                vector = bubble_sort(vector);
+                list_vector();
+                break;
+            case "Selection Sort":
+                vector = selection_sort(vector);
+                list_vector();
+                break;
+            case "Quick Sort":
+                vector = quick_sort(vector, 0, vector.length - 1);
+                list_vector();
+                break;
+            default:
+                console.log(`select_value invalido '${select_value}'`);
+        };
+    };
+
+    function misturar() {
+        console.log("misturar");
+        vector = shuffle(vector, vector.length);
+        list_vector();
+    };
+</script>
+
+</body>
+</html>
